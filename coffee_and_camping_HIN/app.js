@@ -763,7 +763,74 @@ window.openProductDrawer = openProductDrawer;
 window.removeFromCart = removeFromCart;
 
 // ==========================================
-// 8. INITIALIZATION & EVENT BINDINGS
+// 8. TOAST NOTIFICATIONS & 1-CLICK SHARE ENGINE
+// ==========================================
+
+let toastTimeout = null;
+
+function showToast(message, icon = "✨") {
+  const toast = document.getElementById('share-toast');
+  const toastMsg = document.getElementById('toast-message');
+  const toastIcon = toast?.querySelector('.toast-icon');
+
+  if (!toast || !toastMsg) return;
+
+  toastMsg.textContent = message;
+  if (toastIcon) toastIcon.textContent = icon;
+
+  toast.classList.add('show');
+
+  if (toastTimeout) clearTimeout(toastTimeout);
+  toastTimeout = setTimeout(() => {
+    toast.classList.remove('show');
+  }, 3200);
+}
+
+async function handleShare() {
+  const shareData = {
+    title: "AURA ROASTERS × WILD VOYAGE",
+    text: "캠핑 현장의 생생한 감성과 핸드드립 레시피가 결합된 에디토리얼 커피 커머스 ☕🏕️",
+    url: window.location.href
+  };
+
+  // If Mobile / Native Web Share API is supported
+  if (navigator.share && /mobile|android|iphone|ipad|tablet/i.test(navigator.userAgent.toLowerCase())) {
+    try {
+      await navigator.share(shareData);
+      showToast("공유가 완료되었습니다!", "🚀");
+      return;
+    } catch (err) {
+      if (err.name === 'AbortError') return;
+    }
+  }
+
+  // Fallback to Clipboard Copy
+  try {
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      await navigator.clipboard.writeText(window.location.href);
+      showToast("서비스 링크가 복사되었습니다! 원하는 곳에 붙여넣어 공유하세요.", "🔗");
+    } else {
+      const textArea = document.createElement("textarea");
+      textArea.value = window.location.href;
+      textArea.style.position = "fixed";
+      textArea.style.opacity = "0";
+      document.body.appendChild(textArea);
+      textArea.focus();
+      textArea.select();
+      document.execCommand('copy');
+      document.body.removeChild(textArea);
+      showToast("서비스 링크가 복사되었습니다!", "🔗");
+    }
+  } catch (err) {
+    showToast("브라우저 주소창에서 링크를 복사하여 공유해주세요.", "⚠️");
+  }
+}
+
+window.showToast = showToast;
+window.handleShare = handleShare;
+
+// ==========================================
+// 9. INITIALIZATION & EVENT BINDINGS
 // ==========================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -778,22 +845,28 @@ document.addEventListener('DOMContentLoaded', () => {
   // 3. Audio toggle
   document.getElementById('sound-btn').addEventListener('click', toggleSound);
 
-  // 4. Cart Drawer Toggles
+  // 4. Share button (1-Click Share)
+  const shareBtn = document.getElementById('share-btn');
+  if (shareBtn) {
+    shareBtn.addEventListener('click', handleShare);
+  }
+
+  // 5. Cart Drawer Toggles
   document.getElementById('cart-btn').addEventListener('click', openCartDrawer);
   document.getElementById('cart-close').addEventListener('click', closeCartDrawer);
   document.getElementById('cart-drawer-backdrop').addEventListener('click', closeCartDrawer);
 
-  // 5. Product Drawer Closes
+  // 6. Product Drawer Closes
   document.getElementById('drawer-close').addEventListener('click', closeProductDrawer);
   document.getElementById('product-drawer-backdrop').addEventListener('click', closeProductDrawer);
 
-  // 6. Checkout Modals
+  // 7. Checkout Modals
   document.getElementById('btn-proceed-checkout').addEventListener('click', openCheckoutModal);
   document.getElementById('checkout-close').addEventListener('click', closeCheckoutModal);
   document.getElementById('order-form').addEventListener('submit', handleCheckoutSubmit);
   document.getElementById('btn-return-magazine').addEventListener('click', closeCheckoutModal);
 
-  // 7. Shop Filter Pills
+  // 8. Shop Filter Pills
   document.getElementById('shop-filter-pills').addEventListener('click', (e) => {
     if (e.target.classList.contains('pill-btn')) {
       document.querySelectorAll('#shop-filter-pills .pill-btn').forEach(b => b.classList.remove('active'));
@@ -802,7 +875,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   });
 
-  // 8. Escape Key Listener
+  // 9. Escape Key Listener
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       closeProductDrawer();

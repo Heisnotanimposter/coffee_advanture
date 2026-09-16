@@ -1,0 +1,9 @@
+{
+  "version": 2,
+  "rewrites": [
+    { "source": "/assets/(.*)", "destination": "/coffee_and_camping_HIN/assets/$1" },
+    { "source": "/style.css", "destination": "/coffee_and_camping_HIN/style.css" },
+    { "source": "/app.js", "destination": "/coffee_and_camping_HIN/app.js" },
+    { "source": "/(.*)", "destination": "/coffee_and_camping_HIN/$1" }
+  ]
+}

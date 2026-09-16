@@ -50,6 +50,18 @@
           <span class="sound-text">Sound: Nature</span>
         </button>
 
+        <!-- Share Button (1-Click Web Share / Clipboard) -->
+        <button class="share-trigger-btn" id="share-btn" title="서비스 링크 1초 만에 공유하기" aria-label="링크 공유">
+          <svg class="share-icon" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <circle cx="18" cy="5" r="3"></circle>
+            <circle cx="6" cy="12" r="3"></circle>
+            <circle cx="18" cy="19" r="3"></circle>
+            <line x1="8.59" y1="13.51" x2="15.42" y2="17.49"></line>
+            <line x1="15.41" y1="6.51" x2="8.59" y2="10.49"></line>
+          </svg>
+          <span class="share-text">SHARE</span>
+        </button>
+
         <!-- Cart Button -->
         <button class="cart-trigger-btn" id="cart-btn" aria-label="장바구니 보기">
           <svg class="cart-icon" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8">
@@ -460,6 +472,12 @@
       <p>© 2026 AURA ROASTERS & WILD VOYAGE. All rights reserved. For Educational Demonstration Purposes.</p>
     </div>
   </footer>
+
+  <!-- Share / Notification Toast -->
+  <div class="share-toast" id="share-toast" role="alert" aria-live="polite">
+    <span class="toast-icon">✨</span>
+    <span class="toast-message" id="toast-message">서비스 링크가 클립보드에 복사되었습니다!</span>
+  </div>
 
   <!-- Scripts -->
   <script src="app.js"></script>
