@@ -17,7 +17,7 @@
 #### 📱 스마트폰 카메라로 QR 코드를 스캔하여 즉시 접속하세요
 <img src="https://api.qrserver.com/v1/create-qr-code/?size=180x180&data=https://heisnotanimposter.github.io/coffee_advanture/" alt="Mobile Access QR Code" width="180" height="180" style="border-radius:12px; border: 2px solid #c88a42;" />
 
-**[👉 웹 서비스 즉시 접속 링크 열기](https://heisnotanimposter.github.io/coffee_advanture/)**
+**[👉 웹 서비스 즉시 접속 링크 열기](https://heisnotanimposter.github.io/coffee_advanture/)** <- If it got an error :https://raw.githack.com/Heisnotanimposter/coffee_advanture/main/coffee_and_camping_HIN/index.html
 
 </div>
 
